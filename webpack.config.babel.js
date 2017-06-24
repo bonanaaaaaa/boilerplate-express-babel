@@ -1,6 +1,5 @@
-const path = require('path')
-const nodeExternals = require('webpack-node-externals')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+import path from 'path'
+import nodeExternals from 'webpack-node-externals'
 
 const baseConfig = {
   target: 'node',
@@ -23,34 +22,31 @@ const baseConfig = {
   },
   resolve: {
     modules: [
-      'node_modules',
-      path.resolve(__dirname, 'src')
+      path.resolve(__dirname, 'src'),
+      'node_modules'
     ],
     extensions: ['.js']
-  },
-  plugins: [
-    new CopyWebpackPlugin([
-      { from: './src/index.html' }
-    ])
-  ]
+  }
 }
 
-const devConfig = Object.assign({}, baseConfig, {
+const devConfig = {
+  ...baseConfig,
   name: 'dev',
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, 'dist')
   },
   devtool: 'source-map'
-})
+}
 
-const prodConfig = Object.assign({}, baseConfig, {
+const prodConfig = {
+  ...baseConfig,
   name: 'prod',
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, 'build')
   }
-})
+}
 
 if (process.env.NODE_ENV === 'production') {
   module.exports = prodConfig
